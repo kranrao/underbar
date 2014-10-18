@@ -32,6 +32,11 @@ var _ = {};
 
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
+  //
+  // Kiran note: this if statement is written with the 'Ternary Operator',
+  // which has the form of: condition ? value-if-true : value-if-false.
+  // Think of the ? as 'then' and : as 'else'.
+  // Stack Overflow description: http://stackoverflow.com/questions/1771786/question-mark-in-javascript 
   _.first = function(array, n) {
     return n === undefined ? array[0] : array.slice(0, n);
   };
@@ -39,6 +44,16 @@ var _ = {};
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    if (n === undefined) {
+      return array[array.length - 1];
+    } else if (n === 0) {
+      var emptyArray = [];
+      return emptyArray;
+    } else if (n < array.length) {
+      return array.slice(n - 1, array.length)
+    } else {
+      return array;
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
