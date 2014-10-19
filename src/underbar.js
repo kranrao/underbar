@@ -61,7 +61,20 @@ var _ = {};
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
+  //
+  // Kiran note: Array.isArray() checks whether an object is an array.
+  // Need to continue to review functions as objects... iterator just stores
+  // the data in a way that other objects can't and that's why it works here
   _.each = function(collection, iterator) {
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+      iterator(collection[i], i, collection);
+      }
+    } else {
+      for (var k in collection) {
+      iterator(collection[k], k, collection);
+      }
+    }
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -82,7 +95,17 @@ var _ = {};
   };
 
   // Return all elements of an array that pass a truth test.
+  //
+  // Kiran note: this gives a good understanding of callbacks.
+  // Review alongside previous function.
   _.filter = function(collection, test) {
+    _.each(collection, function(item, index) {
+      if (test(item) === false) {
+        collection.splice(index, 1);
+      }
+    });
+
+    return collection;
   };
 
   // Return all elements of an array that don't pass a truth test.
