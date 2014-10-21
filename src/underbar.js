@@ -35,8 +35,7 @@ var _ = {};
   //
   // Kiran note: this if statement is written with the 'Ternary Operator',
   // which has the form of: condition ? value-if-true : value-if-false.
-  // Think of the ? as 'then' and : as 'else'.
-  // Stack Overflow description: http://stackoverflow.com/questions/1771786/question-mark-in-javascript 
+  // Think of the ? as 'then' and : as 'else'. 
   _.first = function(array, n) {
     return n === undefined ? array[0] : array.slice(0, n);
   };
@@ -112,6 +111,23 @@ var _ = {};
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var falseElements = [];
+    _.filter(collection, function(item, index) {
+      // console.log(index);
+      // why would index be undefined here?
+
+      if (test(item) === false) {
+        // console.log(index);
+        // why would index be undefined here?
+        //
+        // Kiran note: had to create a new array.  Could not use splice method
+        // on collection since index was undefined.  Go through with someone
+        
+        falseElements.push(item);
+      }
+    });
+
+    return falseElements;
   };
 
   // Produce a duplicate-free version of the array.
