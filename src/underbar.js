@@ -132,6 +132,18 @@ var _ = {};
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    // Go through with someone.  Easier way to do?  
+    array.sort();
+    var duplicateFreeArray = [];
+
+    _.each(array, function(item, index) {
+      if (item === array[index - 1]) {
+        // do nothing if consecutive numbers are the same
+      } else {
+        duplicateFreeArray.push(item);
+      }
+    });
+    return duplicateFreeArray;
   };
 
 
@@ -140,6 +152,11 @@ var _ = {};
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    _.each(collection, function(item, index) {
+      collection[index] = iterator(item);
+    });
+
+    return collection;
   };
 
   /*
