@@ -94,9 +94,6 @@ var _ = {};
   };
 
   // Return all elements of an array that pass a truth test.
-  //
-  // Kiran note: this gives a good understanding of callbacks.
-  // Review alongside previous function.
   _.filter = function(collection, test) {
     _.each(collection, function(item, index) {
       if (test(item) === false) {
@@ -111,18 +108,16 @@ var _ = {};
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    //
+    // Kiran note: look at filter below.  In second argument, note how the only
+    // thing that can be returned to the new function is 'item'.  This fits
+    // filter's original definition
+    //
+    // Kiran note: there must be a better way to do this!  Ask for help
     var falseElements = [];
-    _.filter(collection, function(item, index) {
-      // console.log(index);
-      // why would index be undefined here?
 
+    _.filter(collection, function(item) {
       if (test(item) === false) {
-        // console.log(index);
-        // why would index be undefined here?
-        //
-        // Kiran note: had to create a new array.  Could not use splice method
-        // on collection since index was undefined.  Go through with someone
-        
         falseElements.push(item);
       }
     });
@@ -132,7 +127,7 @@ var _ = {};
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    // Go through with someone.  Easier way to do?  
+    // Kiran note: go through with someone.  Easier way to do?  
     array.sort();
     var duplicateFreeArray = [];
 
@@ -143,6 +138,7 @@ var _ = {};
         duplicateFreeArray.push(item);
       }
     });
+    
     return duplicateFreeArray;
   };
 
@@ -180,6 +176,9 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    return _.map(collection, function(item) {
+      return functionOrKey.apply(item, args);
+    });
   };
 
   // Reduces an array or object to a single value by repetitively calling
