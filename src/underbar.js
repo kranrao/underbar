@@ -108,21 +108,9 @@ var _ = {};
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    //
-    // Kiran note: look at filter below.  In second argument, note how the only
-    // thing that can be returned to the new function is 'item'.  This fits
-    // filter's original definition
-    //
-    // Kiran note: there must be a better way to do this!  Ask for help
-    var falseElements = [];
-
-    _.filter(collection, function(item) {
-      if (test(item) === false) {
-        falseElements.push(item);
-      }
+    return _.filter(collection, function(item) {
+      return !test(item);
     });
-
-    return falseElements;
   };
 
   // Produce a duplicate-free version of the array.
@@ -138,7 +126,7 @@ var _ = {};
         duplicateFreeArray.push(item);
       }
     });
-    
+
     return duplicateFreeArray;
   };
 
