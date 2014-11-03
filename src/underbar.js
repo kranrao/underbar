@@ -108,6 +108,11 @@ var _ = {};
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    //
+    // Kiran note: the 'function' callback below becomes 'test' in the 
+    // filter function above.  So 'function(item)' is equivalent to 'test(item)'
+    // and 'function(item)' is immediately executed returning the opposite
+    // value of 'test(item'.  So a 'true item' now becomes a false in filter.  
     return _.filter(collection, function(item) {
       return !test(item);
     });
@@ -156,6 +161,9 @@ var _ = {};
     // TIP: map is really handy when you want to transform an array of
     // values into a new array of values. _.pluck() is solved for you
     // as an example of this.
+    //
+    // Kiran note: see the reject function comments for why this makes sense.
+    // In a nutshell, 'function(item)' below = 'iterator(item)' above.
     return _.map(collection, function(item){
       return item[key];
     });
@@ -163,6 +171,8 @@ var _ = {};
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
+  //
+  // Kiran note: need to understand args.  Asked rob
   _.invoke = function(collection, functionOrKey, args) {
     return _.map(collection, function(item) {
       return functionOrKey.apply(item, args);
