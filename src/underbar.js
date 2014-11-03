@@ -172,12 +172,50 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   //
-  // Kiran note: need to review the apply function!  Don't understand 'args'
+  // Kiran note: http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/
   _.invoke = function(collection, functionOrKey, args) {
-    // Kiran note: args is undefined.  WTF is it? Apply function...
-    return _.map(collection, function(item) {
-      return functionOrKey.apply(item, args);
-    });
+    if (typeof functionOrKey === 'function') {
+      return _.map(collection, function(item) {
+        return functionOrKey.apply(item, args);
+        // Per the link above: the reverse function has been built in 'javascript
+        // strict mode' by using 'this' in its definition.
+        // In strict mode when using apply to invoke the function, 'item' above
+        // is = to 'this' and 'args' is the argList.
+        // The argList or 'args' would need to be in the function defition
+        // in order for the parameter to matter outside of just meeting the apply
+        // function parameters.
+        //
+        // For example:
+        //   var reverse = function(args){
+        //     return this.split('').reverse().join('') + args;
+        //   }
+        //
+        // Since the the reverse definition in underbarSpec.js does not include
+        // 'args', 'args' is only relevent to meet the apply function's parameters.
+        //
+        // Above, 'args' is just an undefined variable that's been brought
+        // into the invoke function's scope.  We could even leave it out as a parameter
+        // and define the variable inside the function definition.  It's primary
+        // purpose here is the meet the apply function's parameters as described above.
+        //
+        // Don't need to use apply in most cases because 'this' is simply the 'window' or
+        // webpage and hence we are not in "strict mode" as stated above.
+        // For example:
+        //  function hello(thing) {
+        //  console.log("Hello " + thing)
+        //  }
+        //
+        //  hello('world') works because JS allows this convenient syntax, but
+        //  if desugared (basic core primative), it's actually
+        //  hello.call(window, 'world')
+      });
+    } else {
+      return _.map(collection, function(item) {
+        return item[functionOrKey].apply(item, args);
+        // understand that this is a method and the sytax has to be
+        // different than above, but don't understand why []'s?
+      });
+    }
   };
 
   // Reduces an array or object to a single value by repetitively calling
