@@ -172,8 +172,9 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   //
-  // Kiran note: need to understand args.  Asked rob
+  // Kiran note: need to review the apply function!  Don't understand 'args'
   _.invoke = function(collection, functionOrKey, args) {
+    // Kiran note: args is undefined.  WTF is it? Apply function...
     return _.map(collection, function(item) {
       return functionOrKey.apply(item, args);
     });
@@ -193,10 +194,18 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+    var previousValue;
+    accumulator === undefined ? previousValue = collection[0] : previousValue = accumulator;
+    
+    _.each(collection, function(item) {
+      previousValue = iterator(previousValue, item);
+    });
+    
+    return previousValue;
   };
 
   // Determine if the array or object contains a given value (using `===`).
-  _.contains = function(collection, target) {
+  /*_.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
@@ -205,7 +214,7 @@ var _ = {};
       }
       return item === target;
     }, false);
-  };
+  };*/ //Kiran note: commented out so that I can work on reduce without issue
 
 
   // Determine whether all of the elements match a truth test.
