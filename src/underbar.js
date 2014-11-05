@@ -60,12 +60,9 @@ var _ = {};
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
-  //
-  // Kiran note: Array.isArray() checks whether an object is an array.
-  // Need to continue to review functions as objects... iterator just stores
-  // the data in a way that other objects can't and that's why it works here
   _.each = function(collection, iterator) {
     if (Array.isArray(collection)) {
+      // isArray checks if an item is an array
       for (var i = 0; i < collection.length; i++) {
       iterator(collection[i], i, collection);
       }
@@ -119,8 +116,7 @@ var _ = {};
   };
 
   // Produce a duplicate-free version of the array.
-  _.uniq = function(array) {
-    // Kiran note: go through with someone.  Easier way to do?  
+  _.uniq = function(array) { 
     array.sort();
     var duplicateFreeArray = [];
 
@@ -161,9 +157,6 @@ var _ = {};
     // TIP: map is really handy when you want to transform an array of
     // values into a new array of values. _.pluck() is solved for you
     // as an example of this.
-    //
-    // Kiran note: see the reject function comments for why this makes sense.
-    // In a nutshell, 'function(item)' below = 'iterator(item)' above.
     return _.map(collection, function(item){
       return item[key];
     });
@@ -181,7 +174,7 @@ var _ = {};
         // strict mode' by using 'this' in its definition.
         // In strict mode when using apply to invoke the function, 'item' above
         // is = to 'this' and 'args' is the argList.
-        // The argList or 'args' would need to be in the function defition
+        // The argList or 'args' would need to be in the function definition
         // in order for the parameter to matter outside of just meeting the apply
         // function parameters.
         //
@@ -212,8 +205,6 @@ var _ = {};
     } else {
       return _.map(collection, function(item) {
         return item[functionOrKey].apply(item, args);
-        // understand that this is a method and the sytax has to be
-        // different than above, but don't understand why []'s?
       });
     }
   };
@@ -327,7 +318,7 @@ var _ = {};
     for (var i = 1; i < arguments.length; i++) {
       for (var key in arguments[i]) {
         if (obj.hasOwnProperty(key)) {
-          // do nothing
+          // do nothing if key already exists in object
         } else {
           obj[key] = arguments[i][key];
         }
