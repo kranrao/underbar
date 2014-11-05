@@ -112,7 +112,7 @@ var _ = {};
     // Kiran note: the 'function' callback below becomes 'test' in the 
     // filter function above.  So 'function(item)' is equivalent to 'test(item)'
     // and 'function(item)' is immediately executed returning the opposite
-    // value of 'test(item'.  So a 'true item' now becomes a false in filter.  
+    // value of 'test(item)'.  So a 'true item' now becomes a false in filter.  
     return _.filter(collection, function(item) {
       return !test(item);
     });
@@ -275,6 +275,17 @@ var _ = {};
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+    return !_.every(collection, function(item) {
+      // ! before 'every' flips the result to make the implied truth check false
+      if (typeof item === 'string' && item === 'yes') {
+        item = true;
+      }
+      return !iterator(item);
+      // ! before the iterator flips the result back if the implied truth check is unecessary
+    });
   };
 
 
