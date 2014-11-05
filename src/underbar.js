@@ -281,6 +281,7 @@ var _ = {};
     return !_.every(collection, function(item) {
       // ! before 'every' flips the result to make the implied truth check false
       if (typeof item === 'string' && item === 'yes') {
+        // Kiran note: is there a way to capture all truthy value strings at once?
         item = true;
       }
       return !iterator(item);
@@ -308,6 +309,16 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        // console.log(arguments[i]);
+        // console.log(key);
+        // console.log(arguments[i][key]);
+        // Kiran note: left the above logs as a reminder of what data can be pulled
+        obj[key] = arguments[i][key];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
