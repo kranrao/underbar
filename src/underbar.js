@@ -380,7 +380,6 @@ var _ = {};
         result = func.apply(this, arguments);
         priorCalculations[arg] = result;
       }
-      console.log(priorCalculations);
       return result;
     }
   };
@@ -392,6 +391,16 @@ var _ = {};
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = [];
+    for (var i = 2; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    } 
+    // Seperates arguments to be used with the callback
+
+    return setTimeout(function() {
+      return func.apply(this, args);
+    }, wait);
+
   };
 
 
