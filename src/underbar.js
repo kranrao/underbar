@@ -415,6 +415,22 @@ var _ = {};
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var shuffledArray = [];
+    var position;
+
+    _.each(array, function(item, index) {
+      position = Math.random();
+
+      if (index === 1) {
+        shuffledArray.unshift(item);
+      } else if (position < 0.5) {
+        shuffledArray.push(item);
+      } else {
+        shuffledArray.unshift(item);
+      }
+    });
+
+    return shuffledArray;
   };
 
 
