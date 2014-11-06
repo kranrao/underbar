@@ -168,7 +168,7 @@ var _ = {};
   // Kiran note: http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/
   _.invoke = function(collection, functionOrKey, args) {
     if (typeof functionOrKey === 'function') {
-      return _.map(collection, function(item) {
+      return _.map(collection, function(item) { 
         return functionOrKey.apply(item, args);
         // Per the link above: the reverse function has been built in 'javascript
         // strict mode' by using 'this' in its definition.
@@ -366,6 +366,23 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var priorCalculations = {};
+    // tracks whether we have already computed the result of a given argument
+    var result;
+
+    return function() {
+      var arg = arguments[0];
+      // converts arguments from an array
+
+      if (arg in priorCalculations) {
+        result = priorCalculations[arg];
+      } else {
+        result = func.apply(this, arguments);
+        priorCalculations[arg] = result;
+      }
+      console.log(priorCalculations);
+      return result;
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
